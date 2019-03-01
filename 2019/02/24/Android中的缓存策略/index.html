@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="缓存策略的主要流程：当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅">
+<meta name="keywords" content="Android开发艺术探索,缓存策略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中的缓存策略">
+<meta property="og:url" content="http://yoursite.com/2019/02/24/Android中的缓存策略/index.html">
+<meta property="og:site_name" content="健策的博客">
+<meta property="og:description" content="缓存策略的主要流程：当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-02-24T08:41:52.145Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中的缓存策略">
+<meta name="twitter:description" content="缓存策略的主要流程：当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/24/Android中的缓存策略/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android中的缓存策略 | 健策的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">健策的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">人生就像一盒巧克力，你永远不知道下一颗是什么味道！</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/24/Android中的缓存策略/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="袁健策">
+      <meta itemprop="description" content="在校大学生，Android小白，正在努力学习中！">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="健策的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android中的缓存策略
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-24 16:27:15 / 修改时间：16:41:52" itemprop="dateCreated datePublished" datetime="2019-02-24T16:27:15+08:00">2019-02-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Android开发艺术探索/" itemprop="url" rel="index"><span itemprop="name">Android开发艺术探索</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="缓存策略的主要流程："><a href="#缓存策略的主要流程：" class="headerlink" title="缓存策略的主要流程："></a>缓存策略的主要流程：</h2><p><strong>当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅仅适用于图片，也适用于其他文件类型。</strong></p>
+<a id="more"></a>
+<h3 id="缓存算法"><a href="#缓存算法" class="headerlink" title="缓存算法"></a>缓存算法</h3><p>目前常用的一种缓存算法是<em>LRU(Least Recently Used)</em>,LRU是<em>近期最少使用</em>的算法，核心思想：<strong>当缓存满时，会优先淘汰那些近期最少使用的缓存对象</strong>。采用LRU算法的缓存有两种：<strong>LruCache</strong>和<strong>DiskLruCache</strong>,<strong>LruCache</strong>用于实现内存缓存，而<strong>DiskLruCaChe</strong>则充当了存储设备缓存。</p>
+<h2 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h2><p><strong>LruCache</strong>是一个泛型类，内部采用一个<strong>LinkedHashMap</strong>以强引用的方式存储外界的缓存对象。并且提供了get和put方法来完成缓存的获取和添加操作。</p>
+<ul>
+<li><strong>强引用</strong>：直接的对象引用</li>
+<li><strong>软引用</strong>：当一个对象只有软引用存在时，系统内存不足时此对象会被gc回收</li>
+<li><strong>弱引用</strong>：当一个对象只有弱引用存在时，此对象会被随时gc回收</li>
+</ul>
+<p><em>初始化LruCaChe</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> MaxMemory = (<span class="keyword">int</span>) (Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);</span><br><span class="line"><span class="keyword">int</span> cacheSize = maxMemory / <span class="number">8</span>;</span><br><span class="line">mMemoryCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize)&#123;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeof</span><span class="params">(String key,Bitmap bitmap)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bitmap.getRowBytes()*bitmap.getHeight() / <span class="number">1024</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在上面代码中，只需要提供缓存的总容量大小并重写sizeof方法即可。另外一些特殊情况下，还需要重写LruCache的entryRemoved方法，LruCache移除旧缓存时会调用entryRemoved方法，因此可以在entryRemoved中完成一些资源回收工作。</p>
+<p><em>从LruCache中获取一个缓存对象</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mMemoryCache.get(key);</span><br></pre></td></tr></table></figure></p>
+<p><em>向LruCache中添加一个缓存对象</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mMemoryCache.put(key,bitmap)</span><br></pre></td></tr></table></figure></p>
+<p><strong>LruCache</strong>还支持删除操作，通过remove方法即可删除一个指定的缓存对象。</p>
+<h2 id="DiskLruCache"><a href="#DiskLruCache" class="headerlink" title="DiskLruCache"></a>DiskLruCache</h2><h3 id="1-DiskLruCache的创建"><a href="#1-DiskLruCache的创建" class="headerlink" title="1.DiskLruCache的创建"></a>1.DiskLruCache的创建</h3><p><strong>DiskLruCache</strong>提供了open方法创建<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DiskLruCache <span class="title">open</span><span class="params">(File directory,<span class="keyword">int</span> appVersion,<span class="keyword">int</span> valueCount,<span class="keyword">long</span> maxSize)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>open</strong>方法有四个参数，其中第一个参数为磁盘缓存在文件系统中的储存路径。缓存可以选择SD卡上的缓存目录，具体为:<strong><em>/sdcard/Android/data/package_name/cache</em></strong>目录,当应用被卸载后，包名的目录会一并被删除。当然还可以选择sd卡上的其他指定路径，还可以选择data下的当前应用的目录。这里一般有个原则：<strong>如果应用卸载后就希望删除缓存文件，那么就选择SD卡上的缓存目录，如果希望保留缓存数据那就应该选择sd卡上的其他路径</strong></p>
+<p>第二个参数为版本号，一般设为1.当版本号改变时会清空之前的所以缓存文件。</p>
+<p>第三个参数表示单个节点所对应的数据的个数，一般设为1即可。第四个参数为缓存的总大小。下面是典型的DiskLruCache的创建过程：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> DISK_CACHE_SIZE = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">50</span> ;<span class="comment">//50Mb</span></span><br><span class="line">File diskCacheFile = getDiskCacheDir(mContext,<span class="string">"bitmap"</span>);</span><br><span class="line"><span class="keyword">if</span>(!diskCacheFile.exists())&#123;</span><br><span class="line">    dislCacheFile.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache = DiskLruCache.open(diskCaCheFile,<span class="number">1</span>,<span class="number">1</span>,DISK_CACHE_SIZE);</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-DiskLruCache的缓存添加"><a href="#2-DiskLruCache的缓存添加" class="headerlink" title="2.DiskLruCache的缓存添加"></a>2.DiskLruCache的缓存添加</h3><p><strong>DiskLruCache</strong>的缓存添加的操作是通过Editor完成的，Editor表示一个缓存对象的编辑对象。这里以照片缓存为例子，首先获取图片的URL所对应的key,然后根据key就可以通过edit()来获取Editor对象，如果这个缓存正在被编辑，那么edit()会返回null,即DiskLruCache不允许同时编辑一个对象。之所以要把url转化成key,是因为图片的url很可能含有特殊的字符，这会影响url在安卓中直接使用，一般采用url的md5值作为key；<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">hashKeyFormUrl</span><span class="params">(String url)</span></span>&#123;</span><br><span class="line">    String cacheKey;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">final</span> MessageDigest mDigest = MessageDigest.getInstance(<span class="string">"MD5"</span>);</span><br><span class="line">        mDigest.update(url.getBytes());</span><br><span class="line">        cacheKey = bytesToHexString(mDigest.digest());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        cacheKey = String.valueof(url.hashcode());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cacheKey;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">bytesToHexString</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bytes.length; i++) &#123;</span><br><span class="line">        String hex = Integer.toHexString(OxFF &amp; bytes[i]);</span><br><span class="line">        <span class="keyword">if</span>(hex.length() == <span class="number">1</span>) &#123;</span><br><span class="line">            sb.append(<span class="string">'0'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(hex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将图片的url转成key后，就可以获得Editor对象了。对于key来说，如果当前不存在其他的Editor对象，那么edit()就会返回一个新的Editor对象，通过他可以获得文件输出流。需注意前面的diskLruCache的open方法中设置了一个节点只有一个数据，因此下面的DISK_CACHE_INDEX常量直接设置成0即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String key = hashkeyFormUrl(url);</span><br><span class="line">DiskLruCache.Editor editor = mDiskLruCache.edit(key);</span><br><span class="line"><span class="keyword">if</span>(editor != <span class="keyword">null</span>) &#123;</span><br><span class="line">    OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有了文件输出流，那么当从网络下载图片时，图片就可以通过这个文件输出流写入到文件系统上，具体实现过程如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">downloadUrlToStream</span><span class="params">(String urlString, OutputStream outputStream)</span> </span>&#123;</span><br><span class="line">    HttpURLConnection urlConnection = <span class="keyword">null</span>;</span><br><span class="line">    BufferedOutputStream out = <span class="keyword">null</span>;</span><br><span class="line">    BufferedInputSream in = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> URL url = <span class="keyword">new</span> URL(urlString);</span><br><span class="line">        urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">        in = <span class="keyword">new</span> BufferedInputStream(urlConnection.getInputSream(),IO_BUFFER_SIZE);</span><br><span class="line">        out = <span class="keyword">new</span> BufferedOutputStream(outputStream,IO_BUFFER_SIZE);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> b;</span><br><span class="line">        <span class="keyword">while</span> ((b = in.read())!= -<span class="number">1</span>) &#123;</span><br><span class="line">            out.write(b);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ture;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStack();;</span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(urlConnection != <span class="keyword">null</span>) &#123;</span><br><span class="line">            urlConnection.disConnect();</span><br><span class="line">        &#125;</span><br><span class="line">        MyUtils.close(in);</span><br><span class="line">        MyUtils.close(out);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，必须通过Editor的commit()来提交写入操作,如果照片下载过程发生了异常，还可以通过Editor的abort()来回退整个操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line"><span class="keyword">if</span>(downloadUrlTOSream(url,outputStream)) &#123;</span><br><span class="line">    editor.commmit();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    editor.abort();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache.flush();</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-DiskLruCache的缓存查找"><a href="#3-DiskLruCache的缓存查找" class="headerlink" title="3.DiskLruCache的缓存查找"></a>3.DiskLruCache的缓存查找</h3><p>缓存查找的过程首先需要将url转化成key，然后通过DiskLruCache的get方法得到一个Snapshot对象，再接着通过这个对象即可获得缓存文件的输入流。进而得到Bitmap对象。为了避免加载图片导致的OOM，一般不建议直接加载原图。上文提到使用BitmapFactory.Options来加载缩放后的图片，但是这种方法之前也提到对FileInputSream存在问题，原因是FileOutput是一种有序的文件流，两次的decodeStream调用会影响文件流的位置属性，导致第二次调用decodeStream时返回了null.故为了解决这种问题，首先得获得文件描述符，再通过BitmapFactory.decodeFileDecriptor方法加载一张缩放后的照片。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap = <span class="keyword">null</span>;</span><br><span class="line">String key = hashKeyFormUrl(url);</span><br><span class="line">DislLruCache.Snapshot snapShot = mDiskLruCache.get(key);</span><br><span class="line"><span class="keyword">if</span>(snapShot != <span class="keyword">null</span>) &#123;</span><br><span class="line">    FileInputStream fileInputStream = (FileInputStream) snapShot.getInputSream(DISK_CACHE_INDEXT);</span><br><span class="line">    FileDecriptor fileDecriptor = fileInputStream.getFD();</span><br><span class="line">    bitmap = mImageResizer.decodeSampledBitmapFromFileDescriptor(fileDecriptor,reqWidth,reqHeight);</span><br><span class="line">    <span class="keyword">if</span>(bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">        addBitmapToMemoryCache(key,bitmap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag"># Android开发艺术探索</a>
+          
+            <a href="/tags/缓存策略/" rel="tag"># 缓存策略</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/29/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/24/Android中的线程池/" rel="prev" title="Android中的线程池">
+                Android中的线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="袁健策">
+            
+              <p class="site-author-name" itemprop="name">袁健策</p>
+              <p class="site-description motion-element" itemprop="description">在校大学生，Android小白，正在努力学习中！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jsyjst" title="GitHub &rarr; https://github.com/jsyjst" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/y8588130@163.com" title="E-Mail &rarr; y8588130@163.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存策略的主要流程："><span class="nav-number">1.</span> <span class="nav-text">缓存策略的主要流程：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存算法"><span class="nav-number">1.1.</span> <span class="nav-text">缓存算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LruCache"><span class="nav-number">2.</span> <span class="nav-text">LruCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskLruCache"><span class="nav-number">3.</span> <span class="nav-text">DiskLruCache</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DiskLruCache的创建"><span class="nav-number">3.1.</span> <span class="nav-text">1.DiskLruCache的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-DiskLruCache的缓存添加"><span class="nav-number">3.2.</span> <span class="nav-text">2.DiskLruCache的缓存添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DiskLruCache的缓存查找"><span class="nav-number">3.3.</span> <span class="nav-text">3.DiskLruCache的缓存查找</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">袁健策</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
