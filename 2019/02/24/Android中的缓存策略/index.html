@@ -155,7 +155,7 @@
 <meta property="og:site_name" content="健策的博客">
 <meta property="og:description" content="缓存策略的主要流程：当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-24T08:41:52.145Z">
+<meta property="og:updated_time" content="2019-03-01T12:06:13.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中的缓存策略">
 <meta name="twitter:description" content="缓存策略的主要流程：当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅">
@@ -421,12 +421,24 @@
                 
               
 
-              <time title="创建时间：2019-02-24 16:27:15 / 修改时间：16:41:52" itemprop="dateCreated datePublished" datetime="2019-02-24T16:27:15+08:00">2019-02-24</time>
+              <time title="创建时间：2019-02-24 16:27:15" itemprop="dateCreated datePublished" datetime="2019-02-24T16:27:15+08:00">2019-02-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-01 20:06:13" itemprop="dateModified" datetime="2019-03-01T20:06:13+08:00">2019-03-01</time>
               
             
           </span>
@@ -479,7 +491,6 @@
 
       
         <h2 id="缓存策略的主要流程："><a href="#缓存策略的主要流程：" class="headerlink" title="缓存策略的主要流程："></a>缓存策略的主要流程：</h2><p><strong>当程序第一次从网络加载图片后，将其缓存到储存设备上，下一次就不用再次从网络上获取了。为了提高应用的用户体验，往往还会再内存中再缓存一份，这样当应用打算从网络请求一张图片时，首先从内存中读取，如果没有那就从储存设备中获取，如果储存设备也没有，那就从网络上下载这张图片。因为从内存中加载图片比储存设备加载要快，所以这样既提高程序的效率又为用户节约了不必要的流量开销。而这种缓存策略不仅仅适用于图片，也适用于其他文件类型。</strong></p>
-<a id="more"></a>
 <h3 id="缓存算法"><a href="#缓存算法" class="headerlink" title="缓存算法"></a>缓存算法</h3><p>目前常用的一种缓存算法是<em>LRU(Least Recently Used)</em>,LRU是<em>近期最少使用</em>的算法，核心思想：<strong>当缓存满时，会优先淘汰那些近期最少使用的缓存对象</strong>。采用LRU算法的缓存有两种：<strong>LruCache</strong>和<strong>DiskLruCache</strong>,<strong>LruCache</strong>用于实现内存缓存，而<strong>DiskLruCaChe</strong>则充当了存储设备缓存。</p>
 <h2 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h2><p><strong>LruCache</strong>是一个泛型类，内部采用一个<strong>LinkedHashMap</strong>以强引用的方式存储外界的缓存对象。并且提供了get和put方法来完成缓存的获取和添加操作。</p>
 <ul>

@@ -147,18 +147,18 @@
 
 
 
-  <meta name="description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能">
+  <meta name="description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能   Android中的线程池概念来源于Java中的Executor，Executor是一个接口，真正的线程池的实现为ThreadPoolExecutor。由于Android">
 <meta name="keywords" content="Android开发艺术探索,线程池">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android中的线程池">
 <meta property="og:url" content="http://yoursite.com/2019/02/24/Android中的线程池/index.html">
 <meta property="og:site_name" content="健策的博客">
-<meta property="og:description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能">
+<meta property="og:description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能   Android中的线程池概念来源于Java中的Executor，Executor是一个接口，真正的线程池的实现为ThreadPoolExecutor。由于Android">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-24T08:43:58.086Z">
+<meta property="og:updated_time" content="2019-03-01T12:01:48.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中的线程池">
-<meta name="twitter:description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能">
+<meta name="twitter:description" content="线程池的好处 重用线程池中的线程，避免线程的创建和销毁所带来的性能开销  能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象  能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能   Android中的线程池概念来源于Java中的Executor，Executor是一个接口，真正的线程池的实现为ThreadPoolExecutor。由于Android">
 
 
 
@@ -421,12 +421,24 @@
                 
               
 
-              <time title="创建时间：2019-02-24 16:27:56 / 修改时间：16:43:58" itemprop="dateCreated datePublished" datetime="2019-02-24T16:27:56+08:00">2019-02-24</time>
+              <time title="创建时间：2019-02-24 16:27:56" itemprop="dateCreated datePublished" datetime="2019-02-24T16:27:56+08:00">2019-02-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-01 20:01:48" itemprop="dateModified" datetime="2019-03-01T20:01:48+08:00">2019-03-01</time>
               
             
           </span>
@@ -484,7 +496,6 @@
 <li><p><strong>能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象</strong></p>
 </li>
 <li><p><strong>能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能</strong></p>
-<a id="more"></a>
 </li>
 </ul>
 <p>Android中的线程池概念来源于Java中的Executor，Executor是一个接口，真正的线程池的实现为ThreadPoolExecutor。由于Android 中的线程池都是直接或是间接通过配置ThreadPoolExecutor来实现的，因此需要先介绍ThreadPoolExecutor。</p>

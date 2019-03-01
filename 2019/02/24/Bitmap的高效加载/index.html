@@ -147,18 +147,18 @@
 
 
 
-  <meta name="description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片">
+  <meta name="description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。">
 <meta name="keywords" content="Android开发艺术探索,Bitmap高效加载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bitmap的高效加载">
 <meta property="og:url" content="http://yoursite.com/2019/02/24/Bitmap的高效加载/index.html">
 <meta property="og:site_name" content="健策的博客">
-<meta property="og:description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片">
+<meta property="og:description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-24T08:40:18.350Z">
+<meta property="og:updated_time" content="2019-03-01T12:01:19.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bitmap的高效加载">
-<meta name="twitter:description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片">
+<meta name="twitter:description" content="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。">
 
 
 
@@ -421,12 +421,24 @@
                 
               
 
-              <time title="创建时间：2019-02-24 16:36:13 / 修改时间：16:40:18" itemprop="dateCreated datePublished" datetime="2019-02-24T16:36:13+08:00">2019-02-24</time>
+              <time title="创建时间：2019-02-24 16:36:13" itemprop="dateCreated datePublished" datetime="2019-02-24T16:36:13+08:00">2019-02-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-01 20:01:19" itemprop="dateModified" datetime="2019-03-01T20:01:19+08:00">2019-03-01</time>
               
             
           </span>
@@ -478,8 +490,7 @@
       
 
       
-        <h2 id="核心思想：采用BitmapFactory-Options来加载所需尺寸的照片"><a href="#核心思想：采用BitmapFactory-Options来加载所需尺寸的照片" class="headerlink" title="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片"></a>核心思想：采用BitmapFactory.Options来加载所需尺寸的照片</h2><a id="more"></a>
-<h5 id="这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。"><a href="#这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。" class="headerlink" title="这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。"></a>这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。</h5><hr>
+        <h2 id="核心思想：采用BitmapFactory-Options来加载所需尺寸的照片"><a href="#核心思想：采用BitmapFactory-Options来加载所需尺寸的照片" class="headerlink" title="核心思想：采用BitmapFactory.Options来加载所需尺寸的照片"></a>核心思想：采用BitmapFactory.Options来加载所需尺寸的照片</h2><h5 id="这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。"><a href="#这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。" class="headerlink" title="这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。"></a>这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。</h5><hr>
 <h3 id="通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。"><a href="#通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。" class="headerlink" title="通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。"></a>通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。</h3><p>当inSampleSize为1时，表示采样图片大小为图片的原始大小；2表示采样图片的宽/高为原图的1/2，故像像素为原图的1/4，内存大小也为原图的1/4。需注意当inSampleSize小于1时，其作用相当于1，即无缩放效果。</p>
 <h3 id="获取采样率的流程："><a href="#获取采样率的流程：" class="headerlink" title="获取采样率的流程："></a>获取采样率的流程：</h3><h6 id="1-将BitmapFactory-Options的inJustDecodeBounds参数设为true并加载图片。"><a href="#1-将BitmapFactory-Options的inJustDecodeBounds参数设为true并加载图片。" class="headerlink" title="1. 将BitmapFactory.Options的inJustDecodeBounds参数设为true并加载图片。"></a>1. 将BitmapFactory.Options的inJustDecodeBounds参数设为true并加载图片。</h6><h6 id="2-从BitmapFactory-Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数"><a href="#2-从BitmapFactory-Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数" class="headerlink" title="2. 从BitmapFactory.Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数"></a>2. 从BitmapFactory.Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数</h6><h6 id="3-根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize"><a href="#3-根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize" class="headerlink" title="3. 根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize."></a>3. 根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize.</h6><h6 id="4-将BitmapFactory-Options的inJustDecodeBounds的参数设为false-然后重新加载图片。"><a href="#4-将BitmapFactory-Options的inJustDecodeBounds的参数设为false-然后重新加载图片。" class="headerlink" title="4. 将BitmapFactory.Options的inJustDecodeBounds的参数设为false,然后重新加载图片。"></a>4. 将BitmapFactory.Options的inJustDecodeBounds的参数设为false,然后重新加载图片。</h6><p>这里需要说明一下inJustDecodeBounds参数，设置为true时，BitmapFactory只会解析图片的宽高信息，并不会真正加载图片，故这操作为轻量级的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeSampledBitmapFromResourse</span><span class="params">(Resources res</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">int</span> resId,<span class="keyword">int</span> reqWidth,<span class="keyword">int</span> reqHeight )</span></span>&#123;</span><br><span class="line">    <span class="keyword">final</span> BitmapFactory.Options options=<span class="keyword">new</span> BitmapFactotry.Options();</span><br><span class="line">    options.inJustDecodeBounds=<span class="keyword">true</span>;</span><br><span class="line">    BitmapFactory.decodeResource(res,resId,options);</span><br><span class="line">    <span class="comment">//计算采样率</span></span><br><span class="line">    options.inSampleSize=calculateInsampleSize(options,reqwidth,reqHeight);</span><br><span class="line">    </span><br><span class="line">    options.inJustDecodeBounds=fales;</span><br><span class="line">    <span class="keyword">return</span> BitmapFactory.decodeResource(res,resId,options);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">calculateInSampleSize</span><span class="params">(BitmapFactory.Options options,<span class="keyword">int</span> reqWidth,reqHeight)</span></span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> height = options.outHeight;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> width = Options.outWidth;</span><br><span class="line">        <span class="keyword">int</span> inSampleSize = <span class="number">1</span>；</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(height &gt; reqHeight || width &gt; reqWidth)&#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> halfHeight = height / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> halfWidth = width / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">while</span>((halfHeight / inSampleSize) &gt;= reqHeight</span><br><span class="line">            &amp;&amp; (halfWidth / inSampleSize &gt;= reqWidth))&#123;</span><br><span class="line">                inSampleSize *= <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inSampleSize;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
