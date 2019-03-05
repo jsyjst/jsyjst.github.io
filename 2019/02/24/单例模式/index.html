@@ -155,7 +155,7 @@
 <meta property="og:site_name" content="健策的博客">
 <meta property="og:description" content="确保一个类只有一个实例，并且自行实例化并向系统提供这个实例 关键点 构造方法不对外开发，构造方法私有化 通过一个静态方法或者枚举返回对象 确保单例类的对象有且只有一个，尤其在多线程环境下 反序列化时不会重新构造对象  饿汉模式12345678public class Singleton&amp;#123;    private static final mSingleton = new Singleton">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-01T12:00:31.787Z">
+<meta property="og:updated_time" content="2019-03-05T14:25:21.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="确保一个类只有一个实例，并且自行实例化并向系统提供这个实例 关键点 构造方法不对外开发，构造方法私有化 通过一个静态方法或者枚举返回对象 确保单例类的对象有且只有一个，尤其在多线程环境下 反序列化时不会重新构造对象  饿汉模式12345678public class Singleton&amp;#123;    private static final mSingleton = new Singleton">
@@ -438,7 +438,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-01 20:00:31" itemprop="dateModified" datetime="2019-03-01T20:00:31+08:00">2019-03-01</time>
+                <time title="修改时间：2019-03-05 22:25:21" itemprop="dateModified" datetime="2019-03-05T22:25:21+08:00">2019-03-05</time>
               
             
           </span>
@@ -513,6 +513,16 @@
 <p>DCL模式是使用单例模式最多的实现。（jdk6以上使用）</p>
 <h3 id="静态内部类单例模式"><a href="#静态内部类单例模式" class="headerlink" title="静态内部类单例模式"></a>静态内部类单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sInstance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton sInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当第一次加载Singleton类是并不会初始化sInstance，只有在第一次调用Singleton的getInstance方法时才有被初始化。这种方式不仅能保证线程安全，也能够保证单例对象的唯一性，同时也延迟了单例的实例化，为首选的单例实现方式。</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>单例模式在内存只存在一个实例，减少内存开支，特别是一个对象需要频繁地创建，销毁时，单例模式的优势会特别明显</li>
+<li>减少系统的性能开销。</li>
+<li>避免对资源的多重占用，例如一个文件的写入操作，由于只存在一个实例在内存中，故可以避免对同一个资源文件同时进行写入操作</li>
+<li>单例模式可以在全局设置访问点，优化和共享资源访问。例如，可以设计一个单例类，负责所有数据表的映射操作</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>单例模式没有接口，扩展很困难，若要扩展，除了修改代码几乎没有第二种途径可以实现</li>
+<li>单例模式如果持有Context，很容易出现内存泄漏，此时传递给单例对象的Context最好是Application Context.</li>
+</ol>
 
       
     </div>
@@ -750,7 +760,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键点"><span class="nav-number">1.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉模式"><span class="nav-number">2.</span> <span class="nav-text">饿汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉模式"><span class="nav-number">3.</span> <span class="nav-text">懒汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-Check-Lock-DCL-模式"><span class="nav-number">4.</span> <span class="nav-text">Double Check Lock(DCL)模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态内部类单例模式"><span class="nav-number">5.</span> <span class="nav-text">静态内部类单例模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键点"><span class="nav-number">1.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉模式"><span class="nav-number">2.</span> <span class="nav-text">饿汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉模式"><span class="nav-number">3.</span> <span class="nav-text">懒汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-Check-Lock-DCL-模式"><span class="nav-number">4.</span> <span class="nav-text">Double Check Lock(DCL)模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态内部类单例模式"><span class="nav-number">5.</span> <span class="nav-text">静态内部类单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">6.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">7.</span> <span class="nav-text">缺点</span></a></li></ol></div>
             
 
           </div>
@@ -797,7 +807,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共6.7k字</span>
+  <span class="post-count">博客全站共7k字</span>
 </div>
         
 <div class="busuanzi-count">
