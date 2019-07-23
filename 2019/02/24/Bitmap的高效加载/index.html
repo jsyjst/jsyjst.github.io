@@ -636,7 +636,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -665,7 +665,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -698,7 +700,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -782,7 +786,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想：采用BitmapFactory-Options来加载所需尺寸的照片"><span class="nav-number">1.</span> <span class="nav-text">核心思想：采用BitmapFactory.Options来加载所需尺寸的照片</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。"><span class="nav-number">1.1.</span> <span class="nav-text">通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取采样率的流程："><span class="nav-number">1.2.</span> <span class="nav-text">获取采样率的流程：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-将BitmapFactory-Options的inJustDecodeBounds参数设为true并加载图片。"><span class="nav-number">1.2.0.0.1.</span> <span class="nav-text">1. 将BitmapFactory.Options的inJustDecodeBounds参数设为true并加载图片。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-从BitmapFactory-Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数"><span class="nav-number">1.2.0.0.2.</span> <span class="nav-text">2. 从BitmapFactory.Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize"><span class="nav-number">1.2.0.0.3.</span> <span class="nav-text">3. 根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize.</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-将BitmapFactory-Options的inJustDecodeBounds的参数设为false-然后重新加载图片。"><span class="nav-number">1.2.0.0.4.</span> <span class="nav-text">4. 将BitmapFactory.Options的inJustDecodeBounds的参数设为false,然后重新加载图片。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际使用"><span class="nav-number">1.3.</span> <span class="nav-text">实际使用</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想：采用BitmapFactory-Options来加载所需尺寸的照片"><span class="nav-text">核心思想：采用BitmapFactory.Options来加载所需尺寸的照片</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这里假设通过ImagView来显示图片，很多时候ImageView并-没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory-Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM-提高Bitmap加载时的性能。"><span class="nav-text">这里假设通过ImagView来显示图片，很多时候ImageView并 没有图片的原始尺寸大，故这时候显然没并要把整个图片加载进来。通过BitmapFactory.Options就可以按一定的采样率来加载缩小的图片，进而在ImageView中显示，这样就会降低内存占用从而在一定程度上避免OOM,提高Bitmap加载时的性能。</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。"><span class="nav-text">通过Options来缩放图片，主要用到它的inSampleSize参数，即采样率。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取采样率的流程："><span class="nav-text">获取采样率的流程：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-将BitmapFactory-Options的inJustDecodeBounds参数设为true并加载图片。"><span class="nav-text">1. 将BitmapFactory.Options的inJustDecodeBounds参数设为true并加载图片。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-从BitmapFactory-Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数"><span class="nav-text">2. 从BitmapFactory.Options中取出图片的原始宽高信息，它们对应outWidth和outHeight参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize"><span class="nav-text">3. 根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize.</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-将BitmapFactory-Options的inJustDecodeBounds的参数设为false-然后重新加载图片。"><span class="nav-text">4. 将BitmapFactory.Options的inJustDecodeBounds的参数设为false,然后重新加载图片。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际使用"><span class="nav-text">实际使用</span></a></li></div>
             
 
           </div>
@@ -829,7 +833,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共25k字</span>
+  <span class="post-count">博客全站共30.1k字</span>
 </div>
         
 <div class="busuanzi-count">
