@@ -147,21 +147,21 @@
 
 
 
-  <meta name="description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）)中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用">
+  <meta name="description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用进">
 <meta name="keywords" content="启动流程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android之9.0Activity启动流程（二）">
 <meta property="og:url" content="http://yoursite.com/2019/08/23/Android之9-0Activity启动流程（二）/index.html">
 <meta property="og:site_name" content="健策的博客">
-<meta property="og:description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）)中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用">
+<meta property="og:description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用进">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/08/23/Android之9-0Activity启动流程（二）/应用进程绑定到AMS.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/23/Android之9-0Activity启动流程（二）/AMS发送启动Activity的请求.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/23/Android之9-0Activity启动流程（二）/ActivityThread的Handler处理启动Activity的请求.png">
-<meta property="og:updated_time" content="2019-08-23T01:55:42.290Z">
+<meta property="og:updated_time" content="2019-08-23T02:22:35.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android之9.0Activity启动流程（二）">
-<meta name="twitter:description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）)中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用">
+<meta name="twitter:description" content="注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：  git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base  参考博客：如何下载和阅读Android源码  前言在上一篇文章Android之Actvitiy启动流程（一）中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用进">
 <meta name="twitter:image" content="http://yoursite.com/2019/08/23/Android之9-0Activity启动流程（二）/应用进程绑定到AMS.png">
 
 
@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2019-08-23 09:50:16 / 修改时间：09:55:42" itemprop="dateCreated datePublished" datetime="2019-08-23T09:50:16+08:00">2019-08-23</time>
+              <time title="创建时间：2019-08-23 09:50:16 / 修改时间：10:22:35" itemprop="dateCreated datePublished" datetime="2019-08-23T09:50:16+08:00">2019-08-23</time>
             
 
             
@@ -496,7 +496,7 @@
 </ul>
 <p>参考博客：<a href="https://www.jianshu.com/p/14ade986d3a8" target="_blank" rel="noopener">如何下载和阅读Android源码</a></p>
 </blockquote>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在上一篇文章<a href="[https://jsyjst.github.io/2019/08/06/Android%E4%B9%8BActivity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B-%E4%B8%80/#more](https://jsyjst.github.io/2019/08/06/Android之Activity启动流程-一/#more">Android之Actvitiy启动流程（一）</a>)中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用进程已经启动了ActivityThread的main方法，所以这篇文章主要围绕下列内容展开来讲解：</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在上一篇文章<a href="https://jsyjst.github.io/2019/08/06/Android之Activity启动流程-一/" target="_blank" rel="noopener">Android之Actvitiy启动流程（一）</a>中我们已经分析了根Activity启动时所需的应用进程是如何创建的，并且当前应用进程已经启动了ActivityThread的main方法，所以这篇文章主要围绕下列内容展开来讲解：</p>
 <ul>
 <li>应用进程绑定到AMS</li>
 <li>AMS发送启动Activity的请求</li>
@@ -1000,7 +1000,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共59.3k字</span>
+  <span class="post-count">博客全站共59.4k字</span>
 </div>
         
 <div class="busuanzi-count">
