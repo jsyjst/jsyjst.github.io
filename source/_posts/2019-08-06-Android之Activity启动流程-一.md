@@ -1,11 +1,11 @@
 ---
-title: Android之Activity启动流程(一)
+title: Android之9.0Activity启动流程(一)
 date: 2019-08-06 17:24:56
 tags: 启动流程
 categories: 四大组件
 ---
 
-> 注：下列源码均基于8.0，可通过下列方式下载本文相关源码到本地：
+> 注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：
 >
 > - git clone https://aosp.tuna.tsinghua.edu.cn/platform/packages/apps/Launcher3
 > - git clone https://aosp.tuna.tsinghua.edu.cn/platform/frameworks/base
@@ -14,7 +14,7 @@ categories: 四大组件
 
 # 前言
 
-本篇文章将根据源码解剖Android的Activity的启动流程。根据启动Activity时机的不同，可分为根Activity的启动流程和普通Activity启动流程，根Activity启动流程又可以称为应用程序启动流程，即在桌面上点击一个应用图标到进入到应用第一个Activity的流程。而普通Activity的启动流程就是在一个应用里开启另外一个Activity的流程。由于两种启动流程是有重叠的，而根Activity的启动流程更加复杂，所以接下来我们重点分析根Activity的启动流程，而普通Activity的启动流程在涉及的地方会稍微提一下。由于考虑到篇幅较长，这里将分为两篇来介绍。
+本篇文章将根据源码解剖Android的Activity的启动流程，需注意的是下列的分析均基于Android9.0, 9.0版本相较于之前几个版本做了许多改动和重构，但是整体的流程是变化不大。根据启动Activity时机的不同，可分为根Activity的启动流程和普通Activity启动流程，根Activity启动流程又可以称为应用程序启动流程，即在桌面上点击一个应用图标到进入到应用第一个Activity的流程。而普通Activity的启动流程就是在一个应用里开启另外一个Activity的流程。由于两种启动流程是有重叠的，而根Activity的启动流程更加复杂，所以接下来我们重点分析根Activity的启动流程，而普通Activity的启动流程在涉及的地方会稍微提一下。由于考虑到篇幅较长，这里将分为两篇来介绍。
 
 这篇将分析启动流程中的应用进程的创建：
 
@@ -291,6 +291,7 @@ startActivity方法经过多个方法调用会去执行startActivityAsUser方法
 > ActivityStarter#startActivityMayWait
 
 ```java
+
     private int startActivityMayWait(IApplicationThread caller, int callingUid,
             String callingPackage, Intent intent, String resolvedType,
             IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
@@ -1202,10 +1203,11 @@ static class MethodAndArgsCaller implements Runnable {
 
 # 后续
 
-分析到这，我们已经越来越接近万里长征的终点了！不过还是得歇歇，养足精力，才能走到终点。下篇博客将分析Activity启动流程的剩下部分。即：
+分析到这，我们已经越来越接近万里长征的终点了！不过还是得歇歇，养足精力，才能走到终点。下篇博客[Android之9.0Activity启动流程（二）](https://jsyjst.github.io/2019/08/23/Android之9-0Activity启动流程（二）/)将分析Activity启动流程的剩下部分。即：
 
 - 应用进程绑定到AMS
-- ActivityThread启动Activity
+- AMS发送启动Activity的请求
+- ActivityThread的Handler处理启动Activity的请求
 
 
 
@@ -1216,4 +1218,5 @@ static class MethodAndArgsCaller implements Runnable {
 > - [Android应用程序进程启动过程](http://liuwangshu.cn/framework/applicationprocess/1.html)
 > - [深入理解Activity启动流程](http://www.cloudchou.com/android/post-788.html)
 > - [Activity启动过程全解析](https://blog.csdn.net/zhaokaiqiang1992/article/details/49428287)
+
 
