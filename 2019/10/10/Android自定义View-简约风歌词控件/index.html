@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Android自定义View-简约风歌词控件前言最近重构了之前的音乐播放器（音乐播放器的源码地址在文章底部），添加了许多功能，比如歌词，下载功能等。这篇文章就让我们聊聊歌词控件的实现（歌词控件也已经开源，地址也在文章底部），先上效果图，如果感觉海星，就继续瞧下去！  看到这里，估计你对这个控件还有点感兴趣的吧，那接下来就让我们来瞧瞧实现这个歌词控件需要做些什么！（如果想直接使用就直接点击文末中的开">
+<meta name="keywords" content="自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义View-简约风歌词控件">
+<meta property="og:url" content="http://yoursite.com/2019/10/10/Android自定义View-简约风歌词控件/index.html">
+<meta property="og:site_name" content="健策的博客">
+<meta property="og:description" content="Android自定义View-简约风歌词控件前言最近重构了之前的音乐播放器（音乐播放器的源码地址在文章底部），添加了许多功能，比如歌词，下载功能等。这篇文章就让我们聊聊歌词控件的实现（歌词控件也已经开源，地址也在文章底部），先上效果图，如果感觉海星，就继续瞧下去！  看到这里，估计你对这个控件还有点感兴趣的吧，那接下来就让我们来瞧瞧实现这个歌词控件需要做些什么！（如果想直接使用就直接点击文末中的开">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/10/10/Android自定义View-简约风歌词控件/lrcView.gif">
+<meta property="og:updated_time" content="2019-10-10T02:38:10.238Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自定义View-简约风歌词控件">
+<meta name="twitter:description" content="Android自定义View-简约风歌词控件前言最近重构了之前的音乐播放器（音乐播放器的源码地址在文章底部），添加了许多功能，比如歌词，下载功能等。这篇文章就让我们聊聊歌词控件的实现（歌词控件也已经开源，地址也在文章底部），先上效果图，如果感觉海星，就继续瞧下去！  看到这里，估计你对这个控件还有点感兴趣的吧，那接下来就让我们来瞧瞧实现这个歌词控件需要做些什么！（如果想直接使用就直接点击文末中的开">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/10/Android自定义View-简约风歌词控件/lrcView.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/10/Android自定义View-简约风歌词控件/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android自定义View-简约风歌词控件 | 健策的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">健策的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">人生就像一盒巧克力，你永远不知道下一颗是什么味道！</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/10/Android自定义View-简约风歌词控件/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="袁健策">
+      <meta itemprop="description" content="在校大学生，Android小白，正在努力学习中！">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="健策的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android自定义View-简约风歌词控件
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-10 10:28:27 / 修改时间：10:38:10" itemprop="dateCreated datePublished" datetime="2019-10-10T10:28:27+08:00">2019-10-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/自定义View/" itemprop="url" rel="index"><span itemprop="name">自定义View</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Android自定义View-简约风歌词控件"><a href="#Android自定义View-简约风歌词控件" class="headerlink" title="Android自定义View-简约风歌词控件"></a>Android自定义View-简约风歌词控件</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近重构了之前的音乐播放器（音乐播放器的源码地址在文章底部），添加了许多功能，比如歌词，下载功能等。这篇文章就让我们聊聊歌词控件的实现（歌词控件也已经开源，地址也在文章底部），先上效果图，如果感觉海星，就继续瞧下去！</p>
+<p><img src="/2019/10/10/Android自定义View-简约风歌词控件/lrcView.gif" alt=""></p>
+<p>看到这里，估计你对这个控件还有点感兴趣的吧，那接下来就让我们来瞧瞧实现这个歌词控件需要做些什么！（如果想直接使用就直接点击文末中的开源库地址，里面会有添加依赖库的说明）</p>
+<h1 id="一、-歌词解析"><a href="#一、-歌词解析" class="headerlink" title="一、 歌词解析"></a>一、 歌词解析</h1><p>首先，我们得知道正常的歌词格式是怎样的，大概是长这个样子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">[ti:喜欢你]</span><br><span class="line">[ar:.]</span><br><span class="line">[al:]</span><br><span class="line">[by:]</span><br><span class="line">[offset:<span class="number">0</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">00.10</span>]喜欢你 - G.E.M. 邓紫棋 (Gem Tang)</span><br><span class="line">[<span class="number">00</span>:<span class="number">00.20</span>]词：黄家驹</span><br><span class="line">[<span class="number">00</span>:<span class="number">00.30</span>]曲：黄家驹</span><br><span class="line">[<span class="number">00</span>:<span class="number">00.40</span>]编曲：Lupo Groinig</span><br><span class="line">[<span class="number">00</span>:<span class="number">00.50</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">12.65</span>]细雨带风湿透黄昏的街道</span><br><span class="line">[<span class="number">00</span>:<span class="number">18.61</span>]抹去雨水双眼无故地仰望</span><br><span class="line">[<span class="number">00</span>:<span class="number">24.04</span>]望向孤单的晚灯</span><br><span class="line">[<span class="number">00</span>:<span class="number">26.91</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">27.44</span>]是那伤感的记忆</span><br><span class="line">[<span class="number">00</span>:<span class="number">30.52</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">34.12</span>]再次泛起心里无数的思念</span><br><span class="line">[<span class="number">00</span>:<span class="number">39.28</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">40.10</span>]以往片刻欢笑仍挂在脸上</span><br><span class="line">[<span class="number">00</span>:<span class="number">45.49</span>]愿你此刻可会知</span><br><span class="line">[<span class="number">00</span>:<span class="number">48.23</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">48.95</span>]是我衷心的说声</span><br><span class="line">[<span class="number">00</span>:<span class="number">53.06</span>]</span><br><span class="line">[<span class="number">00</span>:<span class="number">54.35</span>]喜欢你 那双眼动人</span><br><span class="line">[<span class="number">00</span>:<span class="number">59.35</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">00.10</span>]笑声更迷人</span><br><span class="line">[<span class="number">01</span>:<span class="number">02.37</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">03.15</span>]愿再可 轻抚你</span><br><span class="line">[<span class="number">01</span>:<span class="number">08.56</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">09.35</span>]那可爱面容</span><br><span class="line">[<span class="number">01</span>:<span class="number">12.40</span>]挽手说梦话</span><br><span class="line">[<span class="number">01</span>:<span class="number">14.78</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">15.48</span>]像昨天 你共我</span><br><span class="line">[<span class="number">01</span>:<span class="number">20.84</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">26.32</span>]满带理想的我曾经多冲动</span><br><span class="line">[<span class="number">01</span>:<span class="number">32.45</span>]屡怨与她相爱难有自由</span><br><span class="line">[<span class="number">01</span>:<span class="number">37.82</span>]愿你此刻可会知</span><br><span class="line">[<span class="number">01</span>:<span class="number">40.40</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">41.25</span>]是我衷心的说声</span><br><span class="line">[<span class="number">01</span>:<span class="number">44.81</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">46.39</span>]喜欢你 那双眼动人</span><br><span class="line">[<span class="number">01</span>:<span class="number">51.72</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">52.42</span>]笑声更迷人</span><br><span class="line">[<span class="number">01</span>:<span class="number">54.75</span>]</span><br><span class="line">[<span class="number">01</span>:<span class="number">55.48</span>]愿再可 轻抚你</span><br><span class="line">[<span class="number">02</span>:<span class="number">00.93</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">01.68</span>]那可爱面容</span><br><span class="line">[<span class="number">02</span>:<span class="number">03.99</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">04.73</span>]挽手说梦话</span><br><span class="line">[<span class="number">02</span>:<span class="number">07.13</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">07.82</span>]像昨天 你共我</span><br><span class="line">[<span class="number">02</span>:<span class="number">14.53</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">25.54</span>]每晚夜里自我独行</span><br><span class="line">[<span class="number">02</span>:<span class="number">29.30</span>]随处荡 多冰冷</span><br><span class="line">[<span class="number">02</span>:<span class="number">35.40</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">37.83</span>]以往为了自我挣扎</span><br><span class="line">[<span class="number">02</span>:<span class="number">41.62</span>]从不知 她的痛苦</span><br><span class="line">[<span class="number">02</span>:<span class="number">52.02</span>]</span><br><span class="line">[<span class="number">02</span>:<span class="number">54.11</span>]喜欢你 那双眼动人</span><br><span class="line">[<span class="number">03</span>:<span class="number">00.13</span>]笑声更迷人</span><br><span class="line">[<span class="number">03</span>:<span class="number">02.38</span>]</span><br><span class="line">[<span class="number">03</span>:<span class="number">03.14</span>]愿再可 轻抚你</span><br><span class="line">[<span class="number">03</span>:<span class="number">08.77</span>]</span><br><span class="line">[<span class="number">03</span>:<span class="number">09.33</span>]那可爱面容</span><br><span class="line">[<span class="number">03</span>:<span class="number">11.71</span>]</span><br><span class="line">[<span class="number">03</span>:<span class="number">12.41</span>]挽手说梦话</span><br><span class="line">[<span class="number">03</span>:<span class="number">14.61</span>]</span><br><span class="line">[<span class="number">03</span>:<span class="number">15.45</span>]像昨天 你共我</span><br></pre></td></tr></table></figure>
+<p>从上面可以看出这种格式前面是开始时间，从左往右一一对应分，秒，毫秒，后面就是歌词。所以我们要创建一个实体类来保存每一句的歌词信息。</p>
+<h3 id="1-歌词实体类LrcBean"><a href="#1-歌词实体类LrcBean" class="headerlink" title="1.歌词实体类LrcBean"></a>1.歌词实体类LrcBean</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LrcBean</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String lrc;<span class="comment">//歌词</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> start;<span class="comment">//开始时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> end;<span class="comment">//结束时间</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLrc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lrc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLrc</span><span class="params">(String lrc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lrc = lrc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> start;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStart</span><span class="params">(<span class="keyword">long</span> start)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.start = start;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> end;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEnd</span><span class="params">(<span class="keyword">long</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.end = end;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每句歌词，我们需要开始时间，结束时间和歌词这些信息，那么你就会有疑问了？上面提到的歌词格式好像只有歌词开始时间，那我们怎么知道结束时间呢？其实很简单，这一句歌词的开始时间就是上一句歌词的结束时间。有了歌词实体类，我们就得开始对歌词进行解析了！</p>
+<h3 id="2-解析歌词工具类LrcUtil"><a href="#2-解析歌词工具类LrcUtil" class="headerlink" title="2. 解析歌词工具类LrcUtil"></a>2. 解析歌词工具类LrcUtil</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LrcUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解析歌词，将字符串歌词封装成LrcBean的集合</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> lrcStr 字符串的歌词，歌词有固定的格式，一般为</span></span><br><span class="line"><span class="comment">     * [ti:喜欢你]</span></span><br><span class="line"><span class="comment">     * [ar:.]</span></span><br><span class="line"><span class="comment">     * [al:]</span></span><br><span class="line"><span class="comment">     * [by:]</span></span><br><span class="line"><span class="comment">     * [offset:0]</span></span><br><span class="line"><span class="comment">     * [00:00.10]喜欢你 - G.E.M. 邓紫棋 (Gem Tang)</span></span><br><span class="line"><span class="comment">     * [00:00.20]词：黄家驹</span></span><br><span class="line"><span class="comment">     * [00:00.30]曲：黄家驹</span></span><br><span class="line"><span class="comment">     * [00:00.40]编曲：Lupo Groinig</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 歌词集合</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;LrcBean&gt; <span class="title">parseStr2List</span><span class="params">(String lrcStr)</span></span>&#123;</span><br><span class="line">        List&lt;LrcBean&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//根据转行字符对字符串进行分割</span></span><br><span class="line">        String[] subLrc = lrcStr.split(<span class="string">"\n"</span>);</span><br><span class="line">        <span class="comment">//跳过前四行，从第五行开始，因为前四行的歌词我们并不需要</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">5</span>; i &lt; subLrc.length; i++) &#123;</span><br><span class="line">            String lineLrc = subLrc[i];</span><br><span class="line">            <span class="comment">//[00:00.10]喜欢你 - G.E.M. 邓紫棋 (Gem Tang)</span></span><br><span class="line">            String min = lineLrc.substring(lineLrc.indexOf(<span class="string">"["</span>)+<span class="number">1</span>,lineLrc.indexOf(<span class="string">"["</span>)+<span class="number">3</span>);</span><br><span class="line">            String sec = lineLrc.substring(lineLrc.indexOf(<span class="string">":"</span>)+<span class="number">1</span>,lineLrc.indexOf(<span class="string">":"</span>)+<span class="number">3</span>);</span><br><span class="line">            String mills = lineLrc.substring(lineLrc.indexOf(<span class="string">"."</span>)+<span class="number">1</span>,lineLrc.indexOf(<span class="string">"."</span>)+<span class="number">3</span>);</span><br><span class="line">            <span class="comment">//进制转化，转化成毫秒形式的时间</span></span><br><span class="line">            <span class="keyword">long</span> startTime = getTime(min,sec,mills);</span><br><span class="line">            <span class="comment">//歌词</span></span><br><span class="line">            String lrcText = lineLrc.substring(lineLrc.indexOf(<span class="string">"]"</span>)+<span class="number">1</span>);</span><br><span class="line">            <span class="comment">//有可能是某个时间段是没有歌词，则跳过下面</span></span><br><span class="line">            <span class="keyword">if</span>(lrcText.equals(<span class="string">""</span>)) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="comment">//在第一句歌词中有可能是很长的，我们只截取一部分，即歌曲加演唱者</span></span><br><span class="line">            <span class="comment">//比如 光年之外 (《太空旅客（Passengers）》电影中国区主题曲) - G.E.M. 邓紫棋 (Gem Tang)</span></span><br><span class="line">            <span class="keyword">if</span> (i == <span class="number">5</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> lineIndex = lrcText.indexOf(<span class="string">"-"</span>);</span><br><span class="line">                <span class="keyword">int</span> first = lrcText.indexOf(<span class="string">"("</span>);</span><br><span class="line">                <span class="keyword">if</span>(first&lt;lineIndex&amp;&amp;first!=-<span class="number">1</span>)&#123;</span><br><span class="line">                    lrcText = lrcText.substring(<span class="number">0</span>,first)+lrcText.substring(lineIndex);</span><br><span class="line">                &#125;</span><br><span class="line">                LrcBean lrcBean = <span class="keyword">new</span> LrcBean();</span><br><span class="line">                lrcBean.setStart(startTime);</span><br><span class="line">                lrcBean.setLrc(lrcText);</span><br><span class="line">                res.add(lrcBean);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//添加到歌词集合中</span></span><br><span class="line">            LrcBean lrcBean = <span class="keyword">new</span> LrcBean();</span><br><span class="line">            lrcBean.setStart(startTime);</span><br><span class="line">            lrcBean.setLrc(lrcText);</span><br><span class="line">            res.add(lrcBean);</span><br><span class="line">            <span class="comment">//如果是最后一句歌词，其结束时间是不知道的，我们将人为的设置为开始时间加上100s</span></span><br><span class="line">            <span class="keyword">if</span>(i == subLrc.length-<span class="number">1</span>)&#123;</span><br><span class="line">                res.get(res.size()-<span class="number">1</span>).setEnd(startTime+<span class="number">100000</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(res.size()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="comment">//当集合数目大于1时，这句的歌词的开始时间就是上一句歌词的结束时间</span></span><br><span class="line">                res.get(res.size()-<span class="number">2</span>).setEnd(startTime);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  根据时分秒获得总时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> min 分钟</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sec 秒</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mills 毫秒</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 总时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">getTime</span><span class="params">(String min,String sec,String mills)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Long.valueOf(min)*<span class="number">60</span>*<span class="number">1000</span>+Long.valueOf(sec)*<span class="number">1000</span>+Long.valueOf(mills);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相信上面的代码和注释已经将这个歌词解析解释的挺明白了，需要注意的是上面对i=5,也就是歌词真正开始的第一句做了特殊处理，因为i=5这句有可能是很长的，假设i=5是“光年之外 (《太空旅客（Passengers）》电影中国区主题曲) - G.E.M. 邓紫棋 (Gem Tang)”这句歌词，如果我们不做特殊处理，在后面绘制的时候，就会发现这句歌词会超过屏幕大小，很影响美观，所以我们只截取歌曲名和演唱者，有些说明直接省略掉了。解析好了歌词，接下来就是重头戏-歌词绘制！</p>
+<h1 id="二、歌词绘制"><a href="#二、歌词绘制" class="headerlink" title="二、歌词绘制"></a>二、歌词绘制</h1><p>歌词绘制就涉及到了自定义View的知识，所以还未接触自定义View的小伙伴需要先去看看自定View的基础知识。歌词绘制的主要工作主要由下面几部分构成：</p>
+<ul>
+<li>为歌词控件设置自定义属性，在构造方法中获取并设置自定义属性的默认值</li>
+<li>初始化两支画笔。分别是歌词普通画笔，歌词高亮画笔。</li>
+<li>获取当前播放歌词的位置</li>
+<li>画歌词，根据当前播放歌词的位置来决定用哪支画笔画</li>
+<li>歌词随歌曲播放同步滑动</li>
+<li>重新绘制</li>
+</ul>
+<h3 id="1-设置自定View属性，在代码中设置默认值"><a href="#1-设置自定View属性，在代码中设置默认值" class="headerlink" title="1.设置自定View属性，在代码中设置默认值"></a>1.设置自定View属性，在代码中设置默认值</h3><p>在res文件中的values中新建一个attrs.xml文件，然后定义歌词的自定义View属性</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"LrcView"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"highLineTextColor"</span> <span class="attr">format</span>=<span class="string">"color|reference|integer"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"lrcTextColor"</span> <span class="attr">format</span>=<span class="string">"color|reference|integer"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"lineSpacing"</span> <span class="attr">format</span>=<span class="string">"dimension"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"textSize"</span> <span class="attr">format</span>=<span class="string">"dimension"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里只自定义了歌词颜色，歌词高亮颜色，歌词大小，歌词行间距的属性，可根据自己需要自行添加。</p>
+<p>然后在Java代码中，设置默认值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> lrcTextColor;<span class="comment">//歌词颜色</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> highLineTextColor;<span class="comment">//当前歌词颜色</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> width, height;<span class="comment">//屏幕宽高</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> lineSpacing;<span class="comment">//行间距</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> textSize;<span class="comment">//字体大小</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LrcView</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LrcView);</span><br><span class="line">    lrcTextColor = ta.getColor(R.styleable.LrcView_lrcTextColor, Color.GRAY);</span><br><span class="line">    highLineTextColor = ta.getColor(R.styleable.LrcView_highLineTextColor, Color.BLUE);</span><br><span class="line">    <span class="keyword">float</span> fontScale = context.getResources().getDisplayMetrics().scaledDensity;</span><br><span class="line">    <span class="keyword">float</span> scale = context.getResources().getDisplayMetrics().density;</span><br><span class="line">    <span class="comment">//默认字体大小为16sp</span></span><br><span class="line">    textSize = ta.getDimensionPixelSize(R.styleable.LrcView_textSize, (<span class="keyword">int</span>) (<span class="number">16</span> * fontScale));</span><br><span class="line">    <span class="comment">//默认行间距为30dp</span></span><br><span class="line">    lineSpacing = ta.getDimensionPixelSize(R.styleable.LrcView_lineSpacing, (<span class="keyword">int</span>) (<span class="number">30</span> * scale));</span><br><span class="line">    <span class="comment">//回收</span></span><br><span class="line">    ta.recycle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-初始化两支画笔"><a href="#2-初始化两支画笔" class="headerlink" title="2. 初始化两支画笔"></a>2. 初始化两支画笔</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//初始化歌词画笔</span></span><br><span class="line">    dPaint = <span class="keyword">new</span> Paint();</span><br><span class="line">    dPaint.setStyle(Paint.Style.FILL);<span class="comment">//填满</span></span><br><span class="line">    dPaint.setAntiAlias(<span class="keyword">true</span>);<span class="comment">//抗锯齿</span></span><br><span class="line">    dPaint.setColor(lrcTextColor);<span class="comment">//画笔颜色</span></span><br><span class="line">    dPaint.setTextSize(textSize);<span class="comment">//歌词大小</span></span><br><span class="line">    dPaint.setTextAlign(Paint.Align.CENTER);<span class="comment">//文字居中</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化当前歌词画笔</span></span><br><span class="line">    hPaint = <span class="keyword">new</span> Paint();</span><br><span class="line">    hPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">    hPaint.setAntiAlias(<span class="keyword">true</span>);</span><br><span class="line">    hPaint.setColor(highLineTextColor);</span><br><span class="line">    hPaint.setTextSize(textSize);</span><br><span class="line">    hPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们把初始化的方法放到了构造方法中，这样就可以避免在重绘时再次初始化。另外由于我们把init方法只放到了第三个构造方法中，所以在上面两个构造方法需要将super改成this，这样就能保证哪个构造方法都能执行init方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LrcView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>(context, <span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LrcView</span><span class="params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LrcView</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">       TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LrcView);</span><br><span class="line">       ......</span><br><span class="line">       <span class="comment">//回收</span></span><br><span class="line">       ta.recycle();</span><br><span class="line">       init();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-重复执行onDraw方法"><a href="#3-重复执行onDraw方法" class="headerlink" title="3. 重复执行onDraw方法"></a>3. 重复执行onDraw方法</h3><p>因为后面的步骤都是在onDraw方法中执行的，所以我们先贴出onDraw方法中的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line">    </span><br><span class="line">    getMeasuredWidthAndHeight();<span class="comment">//得到测量后的宽高</span></span><br><span class="line">    getCurrentPosition();<span class="comment">//得到当前歌词的位置</span></span><br><span class="line">    drawLrc(canvas);<span class="comment">//画歌词</span></span><br><span class="line">    scrollLrc();<span class="comment">//歌词滑动</span></span><br><span class="line">    postInvalidateDelayed(<span class="number">100</span>);<span class="comment">//延迟0.1s刷新</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.获得控件的测量后的宽高</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> width, height;<span class="comment">//屏幕宽高</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getMeasuredWidthAndHeight</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (width == <span class="number">0</span> || height == <span class="number">0</span>) &#123;</span><br><span class="line">           width = getMeasuredWidth();</span><br><span class="line">           height = getMeasuredHeight();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>为什么要获得控件的宽高呢？因为在下面我们需要画歌词，画歌词时需要画的位置，这时候就需要用到控件的宽高了。</p>
+<p><strong>2. 得到当前歌词的位置</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> List&lt;LrcBean&gt; lrcBeanList;<span class="comment">//歌词集合</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> currentPosition;<span class="comment">//当前歌词的位置</span></span><br><span class="line"><span class="keyword">private</span> MediaPlayer player;<span class="comment">//当前的播放器</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getCurrentPosition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> curTime = player.getCurrentPosition();</span><br><span class="line">    <span class="comment">//如果当前的时间大于10分钟，证明歌曲未播放，则当前位置应该为0</span></span><br><span class="line">    <span class="keyword">if</span> (curTime &lt; lrcBeanList.get(<span class="number">0</span>).getStart()||curTime&gt;<span class="number">10</span>*<span class="number">60</span>*<span class="number">1000</span>) &#123;</span><br><span class="line">        currentPosition = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (curTime &gt; lrcBeanList.get(lrcBeanList.size() - <span class="number">1</span>).getStart()) &#123;</span><br><span class="line">        currentPosition = lrcBeanList.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lrcBeanList.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (curTime &gt;= lrcBeanList.get(i).getStart() &amp;&amp; curTime &lt;= lrcBeanList.get(i).getEnd()) &#123;</span><br><span class="line">            currentPosition = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们根据当前播放的歌曲时间来遍历歌词集合，从而判断当前播放的歌词的位置。细心的你可能会发现在currentPosition = 0中有个curTime&gt;10 <em> 60 </em>1000的判断，这是因为在实际使用中发现当player还未播放时，这时候得到的curTime会很大，所以才有了这个判断（因为正常的歌曲不会超过10分钟）。</p>
+<p>在这个方法我们会发现出现了歌词集合和播放器，你可能会感到困惑，这些不是还没赋值吗？困惑就对了，所以我们需要提供外部方法来给外部传给歌词控件歌词集合和播放器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将歌词集合传给到这个自定义View中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LrcView <span class="title">setLrc</span><span class="params">(String lrc)</span> </span>&#123;</span><br><span class="line">    lrcBeanList = LrcUtil.parseStr2List(lrc);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//传递mediaPlayer给自定义View中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LrcView <span class="title">setPlayer</span><span class="params">(MediaPlayer player)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.player = player;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外部方法中setLrc的参数必须是前面提到的标准歌词格式的字符串形式，这样我们就能利用上文的解析工具类LrcUtil中的解析方法将字符串解析成歌词集合。</p>
+<p><strong>3. 画歌词</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawLrc</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lrcBeanList.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (currentPosition == i) &#123;<span class="comment">//如果是当前的歌词就用高亮的画笔画</span></span><br><span class="line">            canvas.drawText(lrcBeanList.get(i).getLrc(), width / <span class="number">2</span>, height / <span class="number">2</span> + i * lineSpacing, hPaint);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.drawText(lrcBeanList.get(i).getLrc(), width / <span class="number">2</span>, height / <span class="number">2</span> + i * lineSpacing, dPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>知道了当前歌词的位置就很容易画歌词了。遍历歌词集合，如果是当前歌词，则用高亮的画笔画，其它歌词就用普通画笔画。这里需注意的是两支画笔画的位置公式都是一样的，坐标位置为x=宽的一半,y=高的一半+当前位置*行间距。随着当前位置的变化，就能画出上下句歌词来。所以其实绘制出来后你会发现歌词是从控件的正中央开始绘制的，这是为了方便与下面歌词同步滑动功能配合。</p>
+<p><strong>4. 歌词同步滑动</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//歌词滑动</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scrollLrc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//下一句歌词的开始时间</span></span><br><span class="line">    <span class="keyword">long</span> startTime = lrcBeanList.get(currentPosition).getStart();</span><br><span class="line">    <span class="keyword">long</span> currentTime = player.getCurrentPosition();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断是否换行,在0.5内完成滑动，即实现弹性滑动</span></span><br><span class="line">    <span class="keyword">float</span> y = (currentTime - startTime) &gt; <span class="number">500</span> ? currentPosition * lineSpacing : lastPosition * lineSpacing + (currentPosition - lastPosition) * lineSpacing * ((currentTime - startTime) / <span class="number">500f</span>);</span><br><span class="line">    scrollTo(<span class="number">0</span>,(<span class="keyword">int</span>)y);</span><br><span class="line">    <span class="keyword">if</span> (getScrollY() == currentPosition * lineSpacing) &#123;</span><br><span class="line">        lastPosition = currentPosition;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不实现弹性滑动的话，只要判断当前播放歌曲的时间是否大于当前位置歌词的结束时间，然后进行scrollTo(0,(int)currentPosition * lineSpacing)滑动即可。但是为了实现弹性滑动，我们需要将一次滑动分成若干次小的滑动并在一个时间段内完成，所以我们动态设置y的值，由于不断重绘，就能实现在0.5秒内完成View的滑动，这样就能实现歌词同步弹性滑动。</p>
+<blockquote>
+<p>500其实就是0.5s,因为在这里currentTime和startTime的单位都是ms</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> y = (currentTime - startTime) &gt; <span class="number">500</span> ? currentPosition * lineSpacing : lastPosition * lineSpacing + (currentPosition - lastPosition) * lineSpacing * ((currentTime - startTime) / <span class="number">500f</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>5.不断重绘</strong></p>
+<p>通过不断重绘才能实现歌词同步滑动，这里每隔0.1s进行重绘</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postInvalidateDelayed(<span class="number">100</span>);<span class="comment">//延迟0.1s刷新</span></span><br></pre></td></tr></table></figure>
+<p>你以为这样就结束了吗？其实还没有，答案下文揭晓！</p>
+<h1 id="三-、使用"><a href="#三-、使用" class="headerlink" title="三 、使用"></a>三 、使用</h1><p>然后我们兴高采烈的在xml中，引用这个自定义View</p>
+<blockquote>
+<p>LrcView前面的名称为你建这个类的完整包名</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.example.library.view.LrcView</span><br><span class="line">    android:id=<span class="string">"@+id/lrcView"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    app:lineSpacing=<span class="string">"40dp"</span></span><br><span class="line">    app:textSize=<span class="string">"18sp"</span></span><br><span class="line">    app:lrcTextColor=<span class="string">"@color/colorPrimary"</span></span><br><span class="line">    app:highLineTextColor=<span class="string">"@color/highTextColor"</span></span><br><span class="line">    /&gt;</span><br></pre></td></tr></table></figure>
+<p>在Java代码中给这个自定义View传入标准歌词字符串和播放器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lrcView.setLrc(lrc).setPlayer(player);</span><br></pre></td></tr></table></figure>
+<p>点击运行，满心期待自己的成果，接着你就会一脸懵逼，what?怎么是一片空白，什么也没有！其实这时候你重新理一下上面歌词绘制的流程，就会发现问题所在。<strong>首先我们的自定义View控件引用到布局中时是先执行onDraw方法的，所以当你调用setLrc和setPlayer方法后，是不会再重新调用onDraw方法的，等于你并没有传入歌词字符串和播放器，所以当然会显示一片空白</strong></p>
+<p><strong>解决方法</strong>:我们在刚才自定义View歌词控件中添加一个外部方法来调用onDraw,刚好这个invalidate()就能够重新调用onDraw方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> LrcView <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    currentPosition = <span class="number">0</span>;</span><br><span class="line">    lastPosition = <span class="number">0</span>;</span><br><span class="line">    invalidate();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们在主代码中，在调用setLrc和setPlayer后还得调用draw方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lrcView.setLrc(lrc).setPlayer(player).draw();</span><br></pre></td></tr></table></figure>
+<p>这样我们节约风的歌词控件就大功告成了。</p>
+<h1 id="相关源码地址"><a href="#相关源码地址" class="headerlink" title="相关源码地址"></a>相关源码地址</h1><p>如果觉得不错的话，欢迎大家来star!</p>
+<h3 id="歌词控件源码地址-点进去有添加该依赖库说明"><a href="#歌词控件源码地址-点进去有添加该依赖库说明" class="headerlink" title="歌词控件源码地址(点进去有添加该依赖库说明)"></a><a href="https://github.com/jsyjst/Yuan-LrcView" target="_blank" rel="noopener">歌词控件源码地址</a>(点进去有添加该依赖库说明)</h3><h3 id="音乐播放器源码地址"><a href="#音乐播放器源码地址" class="headerlink" title="音乐播放器源码地址"></a><a href="https://github.com/jsyjst/Yuan-SxMusic" target="_blank" rel="noopener">音乐播放器源码地址</a></h3>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自定义View/" rel="tag"><i class="fa fa-tag"></i> 自定义View</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/23/Android之9-0Activity启动流程（二）/" rel="next" title="Android之9.0Activity启动流程（二）">
+                <i class="fa fa-chevron-left"></i> Android之9.0Activity启动流程（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="袁健策">
+            
+              <p class="site-author-name" itemprop="name">袁健策</p>
+              <p class="site-description motion-element" itemprop="description">在校大学生，Android小白，正在努力学习中！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jsyjst" title="GitHub &rarr; https://github.com/jsyjst" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/y8588130@163.com" title="E-Mail &rarr; y8588130@163.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_41979349" title="CSDN &rarr; https://blog.csdn.net/qq_41979349" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.jianshu.com/u/01ecc2e6805d" title="简书 &rarr; https://www.jianshu.com/u/01ecc2e6805d" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android自定义View-简约风歌词控件"><span class="nav-text">Android自定义View-简约风歌词控件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、-歌词解析"><span class="nav-text">一、 歌词解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-歌词实体类LrcBean"><span class="nav-text">1.歌词实体类LrcBean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解析歌词工具类LrcUtil"><span class="nav-text">2. 解析歌词工具类LrcUtil</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#二、歌词绘制"><span class="nav-text">二、歌词绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-设置自定View属性，在代码中设置默认值"><span class="nav-text">1.设置自定View属性，在代码中设置默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-初始化两支画笔"><span class="nav-text">2. 初始化两支画笔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-重复执行onDraw方法"><span class="nav-text">3. 重复执行onDraw方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-、使用"><span class="nav-text">三 、使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关源码地址"><span class="nav-text">相关源码地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#歌词控件源码地址-点进去有添加该依赖库说明"><span class="nav-text">歌词控件源码地址(点进去有添加该依赖库说明)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#音乐播放器源码地址"><span class="nav-text">音乐播放器源码地址</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">袁健策</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.0</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共63.3k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,0" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
