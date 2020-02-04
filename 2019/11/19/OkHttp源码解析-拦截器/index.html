@@ -148,7 +148,7 @@
 
 
   <meta name="description" content="本文OkHttp源码基于3.14.x,版本下载地址：okHttp 3.14.x  前言上一篇文章OkHttp 3.14.x 源码解析-执行流程我们分析了OKHttp的整体执行流程，也从中提到了OKHttp会调用各拦截器来获取响应数据，但是并没有展开来讲，所以这篇文章我们将来详细分析各个拦截器的职责。 从上篇文章我们知道OKHttp有七大拦截器，按添加顺序为：  应用拦截器：可在构造okHttpC">
-<meta name="keywords" content="拆轮子系列">
+<meta name="keywords" content="OkHttp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OkHttp 3.14.x 源码解析-拦截器">
 <meta property="og:url" content="http://yoursite.com/2019/11/19/OkHttp源码解析-拦截器/index.html">
@@ -157,7 +157,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/11/19/OkHttp源码解析-拦截器/OkHttp-http缓存机制.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/19/OkHttp源码解析-拦截器/okhttp-interceptor.png">
-<meta property="og:updated_time" content="2019-11-19T13:32:04.196Z">
+<meta property="og:updated_time" content="2020-02-04T06:55:10.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OkHttp 3.14.x 源码解析-拦截器">
 <meta name="twitter:description" content="本文OkHttp源码基于3.14.x,版本下载地址：okHttp 3.14.x  前言上一篇文章OkHttp 3.14.x 源码解析-执行流程我们分析了OKHttp的整体执行流程，也从中提到了OKHttp会调用各拦截器来获取响应数据，但是并没有展开来讲，所以这篇文章我们将来详细分析各个拦截器的职责。 从上篇文章我们知道OKHttp有七大拦截器，按添加顺序为：  应用拦截器：可在构造okHttpC">
@@ -424,12 +424,24 @@
                 
               
 
-              <time title="创建时间：2019-11-19 21:24:21 / 修改时间：21:32:04" itemprop="dateCreated datePublished" datetime="2019-11-19T21:24:21+08:00">2019-11-19</time>
+              <time title="创建时间：2019-11-19 21:24:21" itemprop="dateCreated datePublished" datetime="2019-11-19T21:24:21+08:00">2019-11-19</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-04 14:55:10" itemprop="dateModified" datetime="2020-02-04T14:55:10+08:00">2020-02-04</time>
               
             
           </span>
@@ -804,7 +816,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/拆轮子系列/" rel="tag"><i class="fa fa-tag"></i> 拆轮子系列</a>
+            <a href="/tags/OkHttp/" rel="tag"><i class="fa fa-tag"></i> OkHttp</a>
           
         </div>
       
@@ -939,7 +951,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -988,7 +1006,19 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1093,7 +1123,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

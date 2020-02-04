@@ -148,7 +148,7 @@
 
 
   <meta name="description" content="本文Glide源码基于4.9,版本下载地址如下：Glide 4.9  前言在分析了Glide的图片加载流程后，更加发觉到Glie的强大，于是这篇文章将继续深入分析Glide的缓存策略。不过今天的文章的源码很多基于上一篇加载流程的基础之上，因此还没有看上一篇的小伙伴，建议先去阅读Glide4.9源码解析-图片加载流程效果会更佳哟！ 一、设计1. 二级缓存 内存缓存：基于LruCache和弱引用机制">
-<meta name="keywords" content="拆轮子系列">
+<meta name="keywords" content="Glide">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Glide 4.9源码解析-缓存策略">
 <meta property="og:url" content="http://yoursite.com/2019/10/23/Glide-4-9源码解析-缓存策略/index.html">
@@ -157,7 +157,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/10/23/Glide-4-9源码解析-缓存策略/Glide-内存缓存.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/23/Glide-4-9源码解析-缓存策略/Glide-磁盘缓存.png">
-<meta property="og:updated_time" content="2019-10-23T03:36:29.791Z">
+<meta property="og:updated_time" content="2020-02-04T06:54:34.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide 4.9源码解析-缓存策略">
 <meta name="twitter:description" content="本文Glide源码基于4.9,版本下载地址如下：Glide 4.9  前言在分析了Glide的图片加载流程后，更加发觉到Glie的强大，于是这篇文章将继续深入分析Glide的缓存策略。不过今天的文章的源码很多基于上一篇加载流程的基础之上，因此还没有看上一篇的小伙伴，建议先去阅读Glide4.9源码解析-图片加载流程效果会更佳哟！ 一、设计1. 二级缓存 内存缓存：基于LruCache和弱引用机制">
@@ -424,12 +424,24 @@
                 
               
 
-              <time title="创建时间：2019-10-23 11:34:33 / 修改时间：11:36:29" itemprop="dateCreated datePublished" datetime="2019-10-23T11:34:33+08:00">2019-10-23</time>
+              <time title="创建时间：2019-10-23 11:34:33" itemprop="dateCreated datePublished" datetime="2019-10-23T11:34:33+08:00">2019-10-23</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-04 14:54:34" itemprop="dateModified" datetime="2020-02-04T14:54:34+08:00">2020-02-04</time>
               
             
           </span>
@@ -817,7 +829,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/拆轮子系列/" rel="tag"><i class="fa fa-tag"></i> 拆轮子系列</a>
+            <a href="/tags/Glide/" rel="tag"><i class="fa fa-tag"></i> Glide</a>
           
         </div>
       
@@ -952,7 +964,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1001,7 +1019,19 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1106,7 +1136,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
