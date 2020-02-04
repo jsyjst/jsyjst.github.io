@@ -2,7 +2,7 @@
 title: Android之Binder机制
 date: 2019-07-09 16:51:35
 tags: IPC
-categories: Android艺术探索
+categories: Binder机制
 
 ---
 

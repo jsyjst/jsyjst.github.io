@@ -2,7 +2,7 @@
 title: Android之Handler机制
 date: 2019-08-01 21:20:40
 tags: Handler机制
-categories: 开发艺术探索
+categories: 消息机制
 ---
 
 > 注：下列所涉及的源码均基于8.0

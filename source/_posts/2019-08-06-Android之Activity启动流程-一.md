@@ -2,7 +2,7 @@
 title: Android之9.0Activity启动流程(一)
 date: 2019-08-06 17:24:56
 tags: 启动流程
-categories: 四大组件
+categories: 启动流程
 ---
 
 > 注：下列源码均基于9.0，可通过下列方式下载本文相关源码到本地：

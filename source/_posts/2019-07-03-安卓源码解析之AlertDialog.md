@@ -2,7 +2,7 @@
 title: 安卓源码解析之AlertDialog
 date: 2019-07-03 21:51:34
 tags: AlertDialog
-categories: 安卓源码解析
+categories: 拆轮子系列
 ---
 
 > 注：下列源码版本为8.0

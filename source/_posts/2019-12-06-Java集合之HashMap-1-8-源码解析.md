@@ -1,8 +1,8 @@
 ---
 title: Java集合之HashMap 1.8 源码解析
 date: 2019-12-06 15:38:06
-tags: 源码解析
-categories: Java
+tags: HashMap
+categories: Java集合
 ---
 
 > 本文源码基于HashMap 1.8,下载地址：[Java 8]()

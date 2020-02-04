@@ -2,7 +2,7 @@
 title: Android之9.0Activity启动流程（二）
 date: 2019-08-23 09:50:16
 tags: 启动流程
-categories: 四大组件
+categories: 启动流程
 ---
 
 > 
