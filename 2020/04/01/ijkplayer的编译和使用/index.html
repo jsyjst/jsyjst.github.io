@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言ijkplayer是一个基于FFmpeg的轻量级Android/iOS视频播放器。是一个很优秀的库,但是如果要使用它并不是那么的简单。首先要对ijkplayer进行编译后才能使用。因此下面将分享自己从编译到使用的整个过程，如果有错误欢迎在评论区指出！ 一、下载并配置Ubuntu虚拟机 根据下面的安装教程，安装Ubuntu虚拟机  温馨提示：在安装过程中为虚拟机分配磁盘大小时，最好选择40GB,">
+<meta name="keywords" content="实用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ijkplayer的编译和使用">
+<meta property="og:url" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/index.html">
+<meta property="og:site_name" content="不能说の秘密">
+<meta property="og:description" content="前言ijkplayer是一个基于FFmpeg的轻量级Android/iOS视频播放器。是一个很优秀的库,但是如果要使用它并不是那么的简单。首先要对ijkplayer进行编译后才能使用。因此下面将分享自己从编译到使用的整个过程，如果有错误欢迎在评论区指出！ 一、下载并配置Ubuntu虚拟机 根据下面的安装教程，安装Ubuntu虚拟机  温馨提示：在安装过程中为虚拟机分配磁盘大小时，最好选择40GB,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/半屏.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/VMware%20tools.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/全屏.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/NDK解压.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/md/实用/images/NDK配置成功.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/初始化.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/md/实用/images/初始化bug.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/ijkplayer目录.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/文件共享.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/例子1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/例子2.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/例子3.png">
+<meta property="og:updated_time" content="2020-04-01T01:17:12.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ijkplayer的编译和使用">
+<meta name="twitter:description" content="前言ijkplayer是一个基于FFmpeg的轻量级Android/iOS视频播放器。是一个很优秀的库,但是如果要使用它并不是那么的简单。首先要对ijkplayer进行编译后才能使用。因此下面将分享自己从编译到使用的整个过程，如果有错误欢迎在评论区指出！ 一、下载并配置Ubuntu虚拟机 根据下面的安装教程，安装Ubuntu虚拟机  温馨提示：在安装过程中为虚拟机分配磁盘大小时，最好选择40GB,">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/半屏.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ijkplayer的编译和使用 | 不能说の秘密</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不能说の秘密</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">人生就像一盒巧克力，你永远不知道下一颗是什么味道！</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/01/ijkplayer的编译和使用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jsyjst">
+      <meta itemprop="description" content="在校大学生，正在努力学习ing！">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不能说の秘密">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ijkplayer的编译和使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-01 09:13:31 / 修改时间：09:17:12" itemprop="dateCreated datePublished" datetime="2020-04-01T09:13:31+08:00">2020-04-01</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/音视频/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>ijkplayer是一个基于FFmpeg的轻量级Android/iOS视频播放器。是一个很优秀的库,但是如果要使用它并不是那么的简单。首先要对ijkplayer进行编译后才能使用。因此下面将分享自己从编译到使用的整个过程，如果有错误欢迎在评论区指出！</p>
+<h1 id="一、下载并配置Ubuntu虚拟机"><a href="#一、下载并配置Ubuntu虚拟机" class="headerlink" title="一、下载并配置Ubuntu虚拟机"></a>一、下载并配置Ubuntu虚拟机</h1><ol>
+<li><p>根据下面的安装教程，安装Ubuntu虚拟机</p>
+<blockquote>
+<p>温馨提示：在安装过程中为虚拟机分配磁盘大小时，最好选择40GB,自己刚开始选择了20GB，后来需要对内存进行扩容</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/qq1326702940/article/details/82322079" target="_blank" rel="noopener">虚拟机安装Ubuntu 16.04.5 图解</a></p>
+</li>
+<li><p>如果幸运的话,按照教程就能打开虚拟机,但是我在最后却一直显示黑屏</p>
+<p>解决方法：搜索cmd命令，然后<strong>以管理员方式打开</strong>，输入netsh winsock reset(这个命令是重置网络规范，黑屏的原因很可能就是VMware软件跟本地网络规范有冲突)，回车之后提示成功重置winsock目录，您必须重新启动计算机才能重新完成配置，重启后打开即可。</p>
+</li>
+<li><p>打开后发现屏幕不能全屏，解决方法就是<strong>安装VMware tools</strong></p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/半屏.png" alt="**"></p>
+</li>
+<li><p>安装VMware tools，实现全屏。</p>
+<blockquote>
+<p>当安装VMware tools后还可以进行Windows和Ubuntu进行文本的复制粘贴，这样对后续操作还是挺方便的</p>
+</blockquote>
+<p>这里参考了网上的解决方法<a href="https://blog.csdn.net/luckypython/article/details/77917898?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">Ubuntu 16.04下安装VMware Tools（三行命令搞定）</a>。具体做法：就是打开终端（在桌面鼠标右键就可以看到），然后依次输入下面的命令：</p>
+<blockquote>
+<p>第一步的操作可能需要很久</p>
+</blockquote>
+<ul>
+<li>sudo apt-get upgrade</li>
+<li>sudo apt-get install open-vm-tools-desktop -y</li>
+<li>sudo reboot</li>
+</ul>
+<p>输入后点击虚拟机的选项，如果变成了<strong>重新安装</strong>就表示安装成功了，如果不行的话就参考这个教程：<a href="https://blog.csdn.net/yibinqi6303/article/details/78382996" target="_blank" rel="noopener">Ubuntu下安装VMware Tools的详细过程</a></p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/VMware tools.png" alt=""></p>
+</li>
+</ol>
+<p>成功后点击查看，然后点击适应客户机或者全屏就可以实现全屏了</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/全屏.png" alt="image-20200331115855435"></p>
+<h1 id="二、在Ubuntu上安装必要的东西"><a href="#二、在Ubuntu上安装必要的东西" class="headerlink" title="二、在Ubuntu上安装必要的东西"></a>二、在Ubuntu上安装必要的东西</h1><p><strong>1.打开终端，在终端下载git和yasm</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br><span class="line">sudo apt-get install yasm</span><br></pre></td></tr></table></figure>
+<p> <strong>2.配置 SDK + NDK</strong></p>
+<ol>
+<li><p>下载</p>
+<ul>
+<li>SDK：直接在android studio中文社区下载的，<a href="http://sdk.android-studio.org/" target="_blank" rel="noopener">SDK下载传送门</a></li>
+<li>NDK：NDK我试过下载了r21的，结果配置不成功，最后下载了<strong>android-ndk-r10e</strong>这一个版本。<a href="http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin" target="_blank" rel="noopener">android-ndk-r10e传送门</a></li>
+</ul>
+</li>
+<li><p>解压</p>
+<blockquote>
+<p>当下载之后，两个文件都位于Downloads文件夹下，我把他们都解压到了Home的新建文件夹setup中。</p>
+</blockquote>
+<ul>
+<li><p>SDK：可以直接提取，因为是zip格式</p>
+</li>
+<li><p>NDK：由于是bin模式，所以需要首先对android-ndk-r10e-linux-x86_64.bin文件进行权限设置。设置权限设置可以直接对这个文件进行：右键-&gt;属性-&gt;允许作为程序可执行文件（打勾）。如下图所示：</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/NDK解压.png" alt="image-20200323170925937"></p>
+</li>
+</ul>
+<p>接着执行终端命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./android-ndk-r10e-linux-x86_64.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置</p>
+<p>首先得打开配置文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/profile</span><br></pre></td></tr></table></figure>
+<p>然后在profile文件的末尾加上下面的路径配置</p>
+<blockquote>
+<p>jay是用户名，因为我这些解压文件都放到了Home的setup中，setup是我自己新建的文件夹</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export ANDROID_NDK=<span class="string">"/home/jay/setup/android-ndk-r10e/"</span> </span><br><span class="line">export ANDROID_SDK=<span class="string">"/home/jay/setup/android-sdk-linux/"</span> </span><br><span class="line">export PATH=$PATH:$ANDROID_NDK</span><br></pre></td></tr></table></figure>
+<p>保存后使用 <code>source /etc/profile</code>使其生效。然后可以用<code>ndk-build -v</code>来检验NDK是否配置成功，出现下图则说明配置成功。</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/md\实用\images\NDK配置成功.png" alt="image-20200331130855463"></p>
+<p>接着开始进行编译</p>
+</li>
+</ol>
+<h1 id="三、编译"><a href="#三、编译" class="headerlink" title="三、编译"></a>三、编译</h1><ol>
+<li>首先从github中下载ijkplayer，并拉取到ijkplayer-android的文件中。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/Bilibili/ijkplayer.git ijkplayer-android</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>首先选择ijkplayer-android文件在终端打开，然后进行在终端中输入./init-android.sh初始化，包括了把ffmpeg的代码拉取到本地等操作。</li>
+</ol>
+<blockquote>
+<p>友情提示：初始化的过程需要很久的时间</p>
+</blockquote>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/初始化.png" alt="image-20200323164116451"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./init-android.sh</span><br></pre></td></tr></table></figure>
+<p>​    我在初始化中途中遇到了如下图的问题：</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/md\实用\images\初始化bug.png" alt="image-20200323164514061"></p>
+<p>​    原因其实就是git默认的缓存不足，因此需要通过下面的命令来扩大缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.postBuffer 200000000</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>如果要支持HTTPS，还得进行HTTPS的初始化</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./init-android-openssl.sh</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>清除一波</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd android/contrib</span><br><span class="line">./compile-openssl.sh clean</span><br><span class="line">./compile-ffmpeg.sh clean</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>友情提示：下面的编译过程都很久，这时候可以去干点别的事</p>
+</blockquote>
+<ol start="5">
+<li>编译openssl</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./compile-openssl.sh all</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>编译ffmpeg</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./compile-ffmpeg.sh all</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>编译ijkplayer,这个编译需要回到上一级android文件上进行编译</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd android</span><br><span class="line">./compile-ijk.sh all</span><br></pre></td></tr></table></figure>
+<p>​    经过一段时间等待后，当编译成功后就会在ijkplayer-android中/android/ijkplayer的目录，如下：</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/ijkplayer目录.png" alt="image-20200323201743990"></p>
+<h1 id="四、移植到Windows中"><a href="#四、移植到Windows中" class="headerlink" title="四、移植到Windows中"></a>四、移植到Windows中</h1><ol>
+<li>确定你的虚拟机是否开启了文件共享，设置路径：虚拟机-&gt;设置-&gt;选项-&gt;共享文件夹，然后选择总是启用的按钮，最后需要重启虚拟机。</li>
+</ol>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/文件共享.png" alt="image-20200323205039769"></p>
+<ol start="2">
+<li><p>接着对编译好的文件进行压缩，不然在复制文件的时候会弹出错误的弹窗。我是对整个ijkplayer-android进行了zip压缩。</p>
+</li>
+<li><p>接着就是复制粘贴，可以选择拖拽或者是ctrl+c,ctrl+v。</p>
+</li>
+<li>解压，得到ijkplayer-android文件</li>
+</ol>
+<h1 id="五、播放ijkplayer的sample"><a href="#五、播放ijkplayer的sample" class="headerlink" title="五、播放ijkplayer的sample"></a>五、播放ijkplayer的sample</h1><ol>
+<li><p>在Android Studio中打开ijkplayer-android\android\ijkplayer项目</p>
+</li>
+<li><p>首先更改项目中的build.gradle，可以根据自己AS的版本来进行更改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Top-level build file where you can add configuration options common to all sub-projects/modules.</span></span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        <span class="comment">//根据自己的具体情况更改</span></span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:3.5.0'</span></span><br><span class="line"></span><br><span class="line">        classpath <span class="string">'com.github.dcendents:android-maven-gradle-plugin:1.4.1'</span></span><br><span class="line">        classpath <span class="string">'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'</span></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ext &#123;</span><br><span class="line">    compileSdkVersion = <span class="number">28</span>        <span class="comment">//根据自己的具体情况更改</span></span><br><span class="line">    buildToolsVersion = <span class="string">"28.0.3"</span>  <span class="comment">//根据自己的具体情况更改</span></span><br><span class="line"></span><br><span class="line">    targetSdkVersion = <span class="number">28</span>         <span class="comment">//根据自己的具体情况更改</span></span><br><span class="line"></span><br><span class="line">    versionCode = <span class="number">800800</span></span><br><span class="line">    versionName = <span class="string">"0.8.8"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">wrapper &#123;</span><br><span class="line">    gradleVersion = <span class="string">'3.5.0'</span>    <span class="comment">//根据自己的具体情况更改</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>然后更改ijkplayer-example中的build.gradle，主要讲complie修改成implementation，并且修改了下面重点关注注释的地方。这里需要重点关注下添加依赖的地方，如果是在电脑的模拟器运行的话需要ijkplayer-x86，如果是真机运行的话，就需要添加ijkplayer-armv7a。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    .......</span><br><span class="line">     defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"tv.danmaku.ijk.media.example"</span></span><br><span class="line">        minSdkVersion <span class="number">9</span></span><br><span class="line">        targetSdkVersion rootProject.ext.targetSdkVersion</span><br><span class="line">        versionCode rootProject.ext.versionCode</span><br><span class="line">        versionName rootProject.ext.versionName</span><br><span class="line">        <span class="comment">//重点关注</span></span><br><span class="line">        flavorDimensions <span class="string">"default"</span></span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">    productFlavors &#123;</span><br><span class="line">        <span class="comment">//重点关注</span></span><br><span class="line">        all32 &#123; minSdkVersion <span class="number">21</span> &#125;</span><br><span class="line">        all64 &#123; minSdkVersion <span class="number">21</span> &#125;</span><br><span class="line">        <span class="comment">// armv5 &#123;&#125;</span></span><br><span class="line">        <span class="comment">// armv7a &#123;&#125;</span></span><br><span class="line">        <span class="comment">// arm64 &#123; minSdkVersion 21 &#125;</span></span><br><span class="line">        <span class="comment">// x86 &#123;&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    splits &#123;</span><br><span class="line">        abi &#123;</span><br><span class="line">            enable <span class="keyword">true</span></span><br><span class="line">            reset()</span><br><span class="line">            include <span class="string">'x86'</span>, <span class="string">'x86_64'</span>, <span class="string">'armeabi-v7a'</span>, <span class="string">'armeabi'</span></span><br><span class="line">            universalApk <span class="keyword">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="function">implementation <span class="title">fileTree</span><span class="params">(include: [<span class="string">'*.jar'</span>], dir: <span class="string">'libs'</span>)</span></span></span><br><span class="line"><span class="function">    implementation 'com.android.support:appcompat-v7:23.0.1'</span></span><br><span class="line"><span class="function">    implementation 'com.android.support:preference-v7:23.0.1'</span></span><br><span class="line"><span class="function">    implementation 'com.android.support:support-annotations:23.0.1'</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    implementation 'com.squareup:otto:1.3.8'</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':ijkplayer-java'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':ijkplayer-exo'</span>)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">//重点关注    </span></span></span><br><span class="line"><span class="function">        </span></span><br><span class="line"><span class="function">    <span class="comment">//虚拟机</span></span></span><br><span class="line"><span class="function">    api <span class="title">project</span><span class="params">(<span class="string">':ijkplayer-x86'</span>)</span></span></span><br><span class="line"><span class="function">    <span class="comment">//真机</span></span></span><br><span class="line"><span class="function">    api <span class="title">project</span><span class="params">(<span class="string">':ijkplayer-armv7a'</span>)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// all32Compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all32Compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all32Compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// all64Compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all64Compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all64Compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all64Compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'</span></span></span><br><span class="line"><span class="function">    <span class="comment">// all64Compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// armv5Compile project(':player-armv5')</span></span></span><br><span class="line"><span class="function">    <span class="comment">// armv7aCompile project(':player-armv7a')</span></span></span><br><span class="line"><span class="function">    <span class="comment">// arm64Compile project(':player-arm64')</span></span></span><br><span class="line"><span class="function">    <span class="comment">// x86Compile project(':player-x86')</span></span></span><br><span class="line"><span class="function">    <span class="comment">// x86_64Compile project(':player-x86_64')</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这时候你可以试着运行下，根据AS的报错信息进行修改，修改的地方其实就是每个模块下的build.gradle，需要将complie修改成implementation，下面只举一个ijkplayer-java的build.gradle</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line"></span><br><span class="line">.......</span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="comment">//只需修改这个地方</span></span><br><span class="line">    <span class="function">implementation <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: [<span class="string">'*.jar'</span>])</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">apply from: new <span class="title">File</span><span class="params">(rootProject.projectDir, <span class="string">"tools/gradle-on-demand.gradle"</span>)</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译成功后，运行例子，例子如下（模拟器）：</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/例子1.png" style="zoom:67%;"></p>
+</li>
+<li><p>点击Sample，然后点击其中一个例子</p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/例子2.png" style="zoom:67%;"></p>
+<p><img src="/2020/04/01/ijkplayer的编译和使用/例子3.png" style="zoom:67%;"></p>
+</li>
+</ol>
+<h1 id="六、项目中使用ijkplayer"><a href="#六、项目中使用ijkplayer" class="headerlink" title="六、项目中使用ijkplayer"></a>六、项目中使用ijkplayer</h1><p>直接按照下面的文章步骤走，这里我就不再多说了</p>
+<p><a href="https://www.jianshu.com/p/5d1d46aa721d" target="_blank" rel="noopener">Ijkplayer demo 基本使用</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>整个过程下来花费了几天的时间，收获也很多，也很感谢前人的经验，让我少走了很多弯路。”世上无难事，只怕有心人”，自己真正尝试后也并没有想象中的那么难，最重要的就是勇敢的踏出第一步！</p>
+<p>最后附上编译后的ijkplayer代码<a href="https://github.com/jsyjst/ijkplayer" target="_blank" rel="noopener">ijkplayer传送门</a></p>
+<blockquote>
+<p>参考博客：</p>
+<ul>
+<li><a href="https://blog.csdn.net/coder_pig/article/details/79134625?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">ijkplayer编译so库真没那么难</a></li>
+<li><a href="https://blog.csdn.net/qq_27582179/article/details/51955794?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">ijkplayer编译（Ubuntu + Win双系统）</a></li>
+<li><a href="https://blog.csdn.net/zerolity/article/details/81206476?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">解决vmtools已安装但还是不能共享文件、复制粘贴</a></li>
+<li><a href="https://www.jianshu.com/p/5d1d46aa721d" target="_blank" rel="noopener">Ijkplayer demo 基本使用</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/实用/" rel="tag"><i class="fa fa-tag"></i> 实用</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/06/Java集合之HashMap-1-8-源码解析/" rel="next" title="Java集合之HashMap 1.8 源码解析">
+                <i class="fa fa-chevron-left"></i> Java集合之HashMap 1.8 源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jsyjst">
+            
+              <p class="site-author-name" itemprop="name">jsyjst</p>
+              <p class="site-description motion-element" itemprop="description">在校大学生，正在努力学习ing！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jsyjst" title="GitHub &rarr; https://github.com/jsyjst" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/y8588130@163.com" title="E-Mail &rarr; y8588130@163.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_41979349" title="CSDN &rarr; https://blog.csdn.net/qq_41979349" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5d9d42b9e51d4577fc7b1c3d/posts" title="掘金 &rarr; https://juejin.im/user/5d9d42b9e51d4577fc7b1c3d/posts" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>掘金</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、下载并配置Ubuntu虚拟机"><span class="nav-text">一、下载并配置Ubuntu虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、在Ubuntu上安装必要的东西"><span class="nav-text">二、在Ubuntu上安装必要的东西</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、编译"><span class="nav-text">三、编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、移植到Windows中"><span class="nav-text">四、移植到Windows中</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、播放ijkplayer的sample"><span class="nav-text">五、播放ijkplayer的sample</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、项目中使用ijkplayer"><span class="nav-text">六、项目中使用ijkplayer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jsyjst</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.0</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共117.7k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,0" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
